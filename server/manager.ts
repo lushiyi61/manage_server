@@ -16,13 +16,11 @@ interface HttpReturn {
 function http_return(res, ret: HttpReturn) {
     const httpReturn: HttpReturn = { code: "0", msg: "success" };
     Object.assign(httpReturn, ret);
-    // const str = JSON.stringify(httpReturn);
-    // logger.debug(str);
     res.send(httpReturn);
 }
 
 const app = Express();
-// app.use(bodyParser.json());
+app.use(bodyParser.json());
 export function server_start(http_ip: string, http_port: number) {
     //设置跨域访问
     app.all('*', (req, res, next) => {
@@ -42,6 +40,7 @@ export function server_start(http_ip: string, http_port: number) {
 // 服务注册
 app.post(SERVER_REQUEST.CREATE, (req, res) => {
     const server_info: ServerReq = req.body;
+    logger.debug(server_info);
     create_server_info(server_info);
     http_return(res, {});
 })
