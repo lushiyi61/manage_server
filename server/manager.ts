@@ -22,7 +22,7 @@ function http_return(res, ret: HttpReturn) {
 }
 
 const app = Express();
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
 export function server_start(http_ip: string, http_port: number) {
     //设置跨域访问
     app.all('*', (req, res, next) => {

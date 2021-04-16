@@ -2,9 +2,9 @@
   "name": "manage_server",
   "version": "1.0.0",
   "description": "服务注册调度中心",
-  "main": "main.ts",
+  "main": "app.ts",
   "scripts": {
-    "dev": "ts-node main.ts",
+    "dev": "ts-node app.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
