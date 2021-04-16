@@ -1,0 +1,30 @@
+{
+  "name": "manage_server",
+  "version": "1.0.0",
+  "description": "服务注册调度中心",
+  "main": "main.ts",
+  "scripts": {
+    "dev": "ts-node main.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lushiyi61/manage_server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lushiyi61/manage_server/issues"
+  },
+  "homepage": "https://github.com/lushiyi61/manage_server#readme",
+  "dependencies": {
+    "@types/express": "^4.17.11",
+    "common-log4js": "^1.0.4",
+    "express": "^4.17.1",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.4"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.39"
+  }
+}
