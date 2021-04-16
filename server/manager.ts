@@ -4,7 +4,7 @@ const logger = log4js.getLogger(basename(__filename));
 ///////////////////////////////////////////////////////
 import Express = require("express");
 import bodyParser = require('body-parser');
-import { FindReq, ServerReq, SERVER_REQUEST } from "../interface/api";
+import { FindReq, ServerReq, SERVER_REQUEST } from "common-manager/dist/interface/api";
 import { create_server_info, get_server_info, get_all_server_info } from "../manager/serverMgr";
 
 interface HttpReturn {

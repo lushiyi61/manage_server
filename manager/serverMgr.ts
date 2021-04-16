@@ -2,7 +2,7 @@ import log4js from "common-log4js";
 import { basename } from "path";
 const logger = log4js.getLogger(basename(__filename));
 ///////////////////////////////////////////////////////
-import { ServerReq } from "../interface/api";
+import { ServerReq } from "common-manager/dist/interface/api";
 
 
 
