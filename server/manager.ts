@@ -13,7 +13,7 @@ interface HttpReturn {
     data?: any,
 }
 
-function http_return(res, ret: HttpReturn) {
+function http_return(res: any, ret: HttpReturn) {
     const httpReturn: HttpReturn = { code: "0", msg: "success" };
     Object.assign(httpReturn, ret);
     res.send(httpReturn);

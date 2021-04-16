@@ -1,24 +1,10 @@
 {
     "compilerOptions": {
-        "lib": [
-            "dom",
-            "es2017"
-        ],
         "resolveJsonModule": true,
-        "watch": true,
-        "target": "es6",
+        "target": "es5",
         "module": "commonjs",
-        "moduleResolution": "node",
-        "outDir": "./build",
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "sourceMap": true
-    },
-    "include": [
-        "./**/*"
-    ],
-    "exclude": [
-        "node_modules",
-        "built"
-    ]
+        "declaration": true,
+        "outDir": "./dist",
+        "strict": true
+    }
 }

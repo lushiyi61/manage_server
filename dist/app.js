@@ -16,4 +16,3 @@ manager_1.server_start(config.http_ip, config.http_port);
 //定时清理僵尸服务
 serverMgr_1.server_mgr_start(config.tick_time);
 logger.info("==========================程序 启动 完毕==========================");
-//# sourceMappingURL=app.js.map

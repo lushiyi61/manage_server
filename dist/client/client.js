@@ -132,4 +132,3 @@ function mem_format(bytes) {
     return (bytes / 1024 / 1024).toFixed(2) + 'MB';
 }
 ;
-//# sourceMappingURL=client.js.map

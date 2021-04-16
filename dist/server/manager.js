@@ -47,4 +47,3 @@ app.post(api_1.SERVER_REQUEST.FIND, function (req, res) {
 app.get(api_1.SERVER_REQUEST.ALL, function (req, res) {
     http_return(res, { data: serverMgr_1.get_all_server_info() });
 });
-//# sourceMappingURL=manager.js.map

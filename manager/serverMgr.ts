@@ -37,20 +37,23 @@ export function create_server_info(server_info: ServerReq) {
     //如果有必须 初始化服务器列表
     if (!SERVER_MAP_MAP.has(server_type)) SERVER_MAP_MAP.set(server_type, new Map<string, ServerReq>());
     const server_map_info = SERVER_MAP_MAP.get(server_type);
-    if (server_map_info.has(server_id)) {
-        const old_server_info = server_map_info.get(server_id);
-        if (old_server_info.ws_ip != ws_ip ||
-            old_server_info.ws_port != ws_port ||
-            old_server_info.http_ip != http_ip ||
-            old_server_info.http_port != http_port
-        ) {
-            logger.info(server_info); // 服务有更新
+    if (server_map_info) {
+        if (server_map_info.has(server_id)) {
+            const old_server_info = server_map_info.get(server_id);
+            if (old_server_info &&
+                (old_server_info.ws_ip != ws_ip ||
+                    old_server_info.ws_port != ws_port ||
+                    old_server_info.http_ip != http_ip ||
+                    old_server_info.http_port != http_port)
+            ) {
+                logger.info(server_info); // 服务有更新
+            }
+        } else {
+            logger.info("there is new server connected, type:[%s], id:[%s]", server_type, server_id);
         }
-    } else {
-        logger.info("there is new server connected, type:[%s], id:[%s]", server_type, server_id);
+        server_info.tick_time = Date.now();
+        server_map_info.set(server_id, server_info);
     }
-    server_info.tick_time = Date.now();
-    server_map_info.set(server_id, server_info);
 
     // logger.info("type:%s id:%s load:%d mem:%s",
     // server_info.server_type, server_info.server_id, server_info.load, server_info.memory);
@@ -71,17 +74,17 @@ export function get_all_server_info(): ServerReq[][] {
 /**
  * 获取指定服务，IP 和端口
  */
-export function get_server_info(server_type: string, server_id?: string): ServerReq {
-    let server_info: ServerReq = null;
+export function get_server_info(server_type: string, server_id?: string): ServerReq | undefined {
     if (SERVER_MAP_MAP.has(server_type)) { // 服务存在
         const server_map_info = SERVER_MAP_MAP.get(server_type);
-        if (server_id && server_map_info.has(server_id)) { // 获取指定服务器
-            return server_map_info.get(server_id);
-        } else {  // 负载均衡
-            return get_min_load_entry(server_type);
+        if (server_map_info) {
+            if (server_id && server_map_info.has(server_id)) { // 获取指定服务器
+                return server_map_info.get(server_id);
+            } else {  // 负载均衡
+                return get_min_load_entry(server_type);
+            }
         }
     }
-    return server_info;
 }
 
 export function server_mgr_start(out_time: number) {
@@ -92,14 +95,16 @@ export function server_mgr_start(out_time: number) {
 /**
  * 获取最小的负载入口
  */
-function get_min_load_entry(server_type: string, load_type: LOAD_TYPE = LOAD_TYPE.NO_LOAD): ServerReq {
+function get_min_load_entry(server_type: string, load_type: LOAD_TYPE = LOAD_TYPE.NO_LOAD): ServerReq | undefined {
     //服务器列表，必须存在
-    if (!SERVER_MAP_MAP.has(server_type)) return null;
+    if (!SERVER_MAP_MAP.has(server_type)) return;
     const server_map_info = SERVER_MAP_MAP.get(server_type);
     const servers: ServerReq[] = [];
-    server_map_info.forEach(value => {
-        servers.push(value);
-    })
+    if (server_map_info) {
+        server_map_info.forEach(value => {
+            servers.push(value);
+        })
+    }
 
     /**
      * 负载方案

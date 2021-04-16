@@ -65,6 +65,6 @@ async function create_async(find_ip: string, find_port: number, find_tick_time: 
     setTimeout(create_async, 2000, find_ip, find_port, find_tick_time);
 }
 
-function mem_format(bytes) {
+function mem_format(bytes: number) {
     return (bytes / 1024 / 1024).toFixed(2) + 'MB';
 };
