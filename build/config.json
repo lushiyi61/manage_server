@@ -1,6 +1,0 @@
-{
-    "ENV": "dev",
-    "http_ip": "127.0.0.1",
-    "http_port": 9000,
-    "tick_time": 5000
-}
