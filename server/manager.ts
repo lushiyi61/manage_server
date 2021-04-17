@@ -4,14 +4,9 @@ const logger = log4js.getLogger(basename(__filename));
 ///////////////////////////////////////////////////////
 import Express = require("express");
 import bodyParser = require('body-parser');
-import { FindReq, ServerReq, SERVER_REQUEST } from "common-manager/dist/interface/api";
+import { SERVER_REQUEST, IServerReq, IFindReq, HttpReturn } from "common-manager";
 import { create_server_info, get_server_info, get_all_server_info } from "../manager/serverMgr";
 
-interface HttpReturn {
-    code?: string,
-    msg?: string,
-    data?: any,
-}
 
 function http_return(res: any, ret: HttpReturn) {
     const httpReturn: HttpReturn = { code: "0", msg: "success" };
@@ -38,8 +33,8 @@ export function server_start(http_ip: string, http_port: number) {
 }
 
 // 服务注册
-app.post(SERVER_REQUEST.CREATE, (req, res) => {
-    const server_info: ServerReq = req.body;
+app.post(SERVER_REQUEST.REPORT, (req, res) => {
+    const server_info: IServerReq = req.body;
     logger.debug(server_info);
     create_server_info(server_info);
     http_return(res, {});
@@ -47,7 +42,7 @@ app.post(SERVER_REQUEST.CREATE, (req, res) => {
 
 // 服务查询
 app.post(SERVER_REQUEST.FIND, (req, res) => {
-    const find_info: FindReq = req.body;
+    const find_info: IFindReq = req.body;
     http_return(res, { data: get_server_info(find_info.server_type, find_info.server_id) })
 })
 

@@ -2,11 +2,10 @@ import log4js from "common-log4js";
 import { basename } from "path";
 const logger = log4js.getLogger(basename(__filename));
 ///////////////////////////////////////////////////////
-import { ServerReq } from "common-manager/dist/interface/api";
+import { IServerReq } from "common-manager";
 
 
-
-const SERVER_MAP_MAP = new Map<string, Map<string, ServerReq>>()  // K:服务类型  V:MAP k:服务ID v:服务
+const SERVER_MAP_MAP = new Map<string, Map<string, IServerReq>>()  // K:服务类型  V:MAP k:服务ID v:服务
 enum LOAD_TYPE { NO_LOAD } // 负载方案
 
 /**
@@ -32,10 +31,10 @@ function delete_die_server(out_time: number) {
     setTimeout(delete_die_server, out_time, out_time);
 }
 
-export function create_server_info(server_info: ServerReq) {
+export function create_server_info(server_info: IServerReq) {
     const { ws_ip, ws_port, http_ip, http_port, server_id, server_type } = server_info;
     //如果有必须 初始化服务器列表
-    if (!SERVER_MAP_MAP.has(server_type)) SERVER_MAP_MAP.set(server_type, new Map<string, ServerReq>());
+    if (!SERVER_MAP_MAP.has(server_type)) SERVER_MAP_MAP.set(server_type, new Map<string, IServerReq>());
     const server_map_info = SERVER_MAP_MAP.get(server_type);
     if (server_map_info) {
         if (server_map_info.has(server_id)) {
@@ -59,10 +58,10 @@ export function create_server_info(server_info: ServerReq) {
     // server_info.server_type, server_info.server_id, server_info.load, server_info.memory);
 }
 
-export function get_all_server_info(): ServerReq[][] {
-    const all_servers: ServerReq[][] = [];
+export function get_all_server_info(): IServerReq[][] {
+    const all_servers: IServerReq[][] = [];
     SERVER_MAP_MAP.forEach(server_map_info => {
-        const servers: ServerReq[] = [];
+        const servers: IServerReq[] = [];
         server_map_info.forEach(server_info => {
             servers.push(server_info);
         })
@@ -74,7 +73,7 @@ export function get_all_server_info(): ServerReq[][] {
 /**
  * 获取指定服务，IP 和端口
  */
-export function get_server_info(server_type: string, server_id?: string): ServerReq | undefined {
+export function get_server_info(server_type: string, server_id?: string): IServerReq | undefined {
     if (SERVER_MAP_MAP.has(server_type)) { // 服务存在
         const server_map_info = SERVER_MAP_MAP.get(server_type);
         if (server_map_info) {
@@ -95,11 +94,11 @@ export function server_mgr_start(out_time: number) {
 /**
  * 获取最小的负载入口
  */
-function get_min_load_entry(server_type: string, load_type: LOAD_TYPE = LOAD_TYPE.NO_LOAD): ServerReq | undefined {
+function get_min_load_entry(server_type: string, load_type: LOAD_TYPE = LOAD_TYPE.NO_LOAD): IServerReq | undefined {
     //服务器列表，必须存在
     if (!SERVER_MAP_MAP.has(server_type)) return;
     const server_map_info = SERVER_MAP_MAP.get(server_type);
-    const servers: ServerReq[] = [];
+    const servers: IServerReq[] = [];
     if (server_map_info) {
         server_map_info.forEach(value => {
             servers.push(value);
