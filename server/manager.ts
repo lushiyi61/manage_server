@@ -3,7 +3,7 @@ import { basename } from "path";
 const logger = log4js.getLogger(basename(__filename));
 ///////////////////////////////////////////////////////
 import { http_serv_start, app } from "common-https";
-import { SERVER_REQUEST, IServerReq, IFindReq, HttpReturn } from "common-manager";
+import { SERVER_REQUEST, IServerReq, IFindReq, HttpReturn, IServerRes } from "common-manager";
 import { create_server_info, get_server_info, get_all_server_info } from "../manager/serverMgr";
 
 
@@ -27,7 +27,18 @@ app.post(SERVER_REQUEST.REPORT, (req, res) => {
 // 服务查询
 app.post(SERVER_REQUEST.FIND, (req, res) => {
     const find_info: IFindReq = req.body;
-    http_return(res, { data: get_server_info(find_info.server_type, find_info.server_id) })
+    let data: IServerRes = null;
+    const server = get_server_info(find_info.server_type, find_info.server_id);
+    if (server) {
+        data = {
+            server_id: server.server_id,
+            http_ip: server.http_ip,
+            http_port: server.http_port,
+            ws_ip: server.ws_ip,
+            ws_port: server.ws_port,
+        }
+    }
+    http_return(res, { data })
 })
 
 // 服务监控
