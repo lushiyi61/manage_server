@@ -76,13 +76,13 @@ export function get_all_server_info(): IServerReq[][] {
 export function get_server_info(server_type: string, server_id?: string): IServerReq | undefined {
     if (SERVER_MAP_MAP.has(server_type)) { // 服务存在
         const server_map_info = SERVER_MAP_MAP.get(server_type);
-        if (server_map_info) {
-            if (server_id && server_map_info.has(server_id)) { // 获取指定服务器
-                return server_map_info.get(server_id);
-            } else {  // 负载均衡
-                return get_min_load_entry(server_type);
-            }
+        if (server_id && server_map_info.has(server_id)) { // 获取指定服务器
+            return server_map_info.get(server_id);
+        } else {  // 负载均衡
+            return get_min_load_entry(server_type);
         }
+    } else {
+        logger.error("所请求的服务未注册：" + server_type);
     }
 }
 
@@ -97,14 +97,13 @@ export function server_mgr_start(out_time: number) {
 function get_min_load_entry(server_type: string, load_type: LOAD_TYPE = LOAD_TYPE.NO_LOAD): IServerReq | undefined {
     //服务器列表，必须存在
     if (!SERVER_MAP_MAP.has(server_type)) return;
-    const server_map_info = SERVER_MAP_MAP.get(server_type);
     const servers: IServerReq[] = [];
-    if (server_map_info) {
-        server_map_info.forEach(value => {
-            servers.push(value);
-        })
-    }
+    const server_map_info = SERVER_MAP_MAP.get(server_type);
+    server_map_info.forEach(value => {
+        servers.push(value);
+    })
 
+    // logger.debug(servers)
     /**
      * 负载方案
      * 1：无负载
