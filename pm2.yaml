@@ -1,12 +1,12 @@
   
 apps:
-  - script: ./dist/app.js
+  - script: ./build/app.js
     name: ManageService
     instances: 1
     exec_mode: cluster
     watch:
       # // 监控变化的目录，一旦变化，自动重启
-      - "dist"
+      - "build"
     ignore_watch:
       # // 忽视这些目录的变化
       - "node_modules"
