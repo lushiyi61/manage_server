@@ -31,6 +31,7 @@ app.post(SERVER_REQUEST.FIND, (req, res) => {
     const server = get_server_info(find_info.server_type, find_info.server_id);
     if (server) {
         data = {
+            server_type: server.server_type,
             server_id: server.server_id,
             http_ip: server.http_ip,
             http_port: server.http_port,
