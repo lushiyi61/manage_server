@@ -6,7 +6,7 @@
         "target": "es6",
         "module": "commonjs",
         "watch": true,
-        "sourceMap": true,
+        "sourceMap": false,
         "outDir": "./build"
     },
     "include": [
