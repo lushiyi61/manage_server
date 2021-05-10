@@ -1,6 +1,6 @@
 {
   "name": "manage_server",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "服务注册调度中心",
   "main": "app.ts",
   "scripts": {
